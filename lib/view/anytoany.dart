@@ -17,7 +17,7 @@ class _AnyToAnyState extends State<AnyToAny> {
 
   String dropdownValue1 = 'AUD';
   String dropdownValue2 = 'AUD';
-  String answer = '';
+  String answer = 'Converted Currency will be shown here :';
 
   @override
   Widget build(BuildContext context) {
