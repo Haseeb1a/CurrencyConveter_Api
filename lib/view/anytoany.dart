@@ -8,7 +8,6 @@ class AnyToAny extends StatelessWidget {
   const AnyToAny({Key? key, @required this.rates, required this.currencies})
       : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     final anytoanycontroller = Provider.of<AnyTOAny>(context);
@@ -93,9 +92,9 @@ class AnyToAny extends StatelessWidget {
             Container(
               child: ElevatedButton(
                 onPressed: () {
-                anytoanycontroller.convertAndSetAnswer(
-                 anytoanycontroller.amountController.text, rates);
-              },
+                  anytoanycontroller.convertAndSetAnswer(
+                      anytoanycontroller.amountController.text, rates);
+                },
                 child: const Text(
                   'Convert',
                   style: TextStyle(color: Colors.white),
@@ -109,7 +108,13 @@ class AnyToAny extends StatelessWidget {
               width: 10,
             ),
             const SizedBox(height: 10),
-            Container(child: Text(anytoanycontroller.answer))
+            Container(
+                child: Consumer<AnyTOAny>(
+              builder: (context, value, child) {
+                return Text(value.answer);
+              },
+              // child: Text(anytoanycontroller.answer),
+            ))
           ],
         ),
       ),

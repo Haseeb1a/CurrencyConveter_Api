@@ -16,11 +16,11 @@ class _HomeState extends State<Home> {
 
   //Getting RatesModel and All Currencies
   @override
-  void initState() {
-    super.initState();
-    final Fetchs = Provider.of<Homecontroller>(context, listen: false);
-    Fetchs.fetchs();
-  }
+  // void initState() {
+  //   super.initState();
+  //   final Fetchs = Provider.of<Homecontroller>(context, listen: false);
+  //   Fetchs.fetchs();
+  // }
 
   @override
   Widget build(BuildContext context) {
