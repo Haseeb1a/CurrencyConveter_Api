@@ -1,53 +1,42 @@
-import 'package:currency/services/function.dart';
-// import 'package:exhange_rates_flutter/functions/fetchrates.dart';
+import 'package:currency/controller/anty_to_any_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class AnyToAny extends StatefulWidget {
+class AnyToAny extends StatelessWidget {
   final rates;
   final Map currencies;
   const AnyToAny({Key? key, @required this.rates, required this.currencies})
       : super(key: key);
 
-  @override
-  _AnyToAnyState createState() => _AnyToAnyState();
-}
-
-class _AnyToAnyState extends State<AnyToAny> {
-  TextEditingController amountController = TextEditingController();
-
-  String dropdownValue1 = 'AUD';
-  String dropdownValue2 = 'AUD';
-  String answer = 'Converted Currency will be shown here :';
 
   @override
   Widget build(BuildContext context) {
-    var w = MediaQuery.of(context).size.width;
+    final anytoanycontroller = Provider.of<AnyTOAny>(context);
     return Card(
       child: Container(
-        
-        color: Color.fromARGB(255, 232, 208, 85),
-        padding: EdgeInsets.all(20),
+        color: const Color.fromARGB(255, 232, 208, 85),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               'Convert Any Currency',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextFormField(
-              key: ValueKey('amount'),
-              controller: amountController,
-              decoration: InputDecoration(hintText: 'Enter Amount'),
+              key: const ValueKey('amount'),
+              controller: anytoanycontroller.amountController,
+              decoration: const InputDecoration(hintText: 'Enter Amount'),
               keyboardType: TextInputType.number,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
                   child: DropdownButton<String>(
-                    value: dropdownValue1,
+                    value: anytoanycontroller.dropdownValue1,
                     icon: const Icon(Icons.arrow_drop_down_rounded),
                     iconSize: 24,
                     elevation: 16,
@@ -57,11 +46,9 @@ class _AnyToAnyState extends State<AnyToAny> {
                       color: Colors.grey.shade400,
                     ),
                     onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue1 = newValue!;
-                      });
+                      anytoanycontroller.setDropdownValue(newValue!);
                     },
-                    items: widget.currencies.keys
+                    items: currencies.keys
                         .toSet()
                         .toList()
                         .map<DropdownMenuItem<String>>((value) {
@@ -73,11 +60,11 @@ class _AnyToAnyState extends State<AnyToAny> {
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text('To')),
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: const Text('To')),
                 Expanded(
                   child: DropdownButton<String>(
-                    value: dropdownValue2,
+                    value: anytoanycontroller.dropdownValue2,
                     icon: const Icon(Icons.arrow_drop_down_rounded),
                     iconSize: 24,
                     elevation: 16,
@@ -87,11 +74,9 @@ class _AnyToAnyState extends State<AnyToAny> {
                       color: Colors.grey.shade400,
                     ),
                     onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue2 = newValue!;
-                      });
+                      anytoanycontroller.setDrodewnavalue2(newValue!);
                     },
-                    items: widget.currencies.keys
+                    items: currencies.keys
                         .toSet()
                         .toList()
                         .map<DropdownMenuItem<String>>((value) {
@@ -104,33 +89,27 @@ class _AnyToAnyState extends State<AnyToAny> {
                 ),
               ],
             ),
-
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
               child: ElevatedButton(
-                
                 onPressed: () {
-                  setState(() {
-                    answer = amountController.text +
-                        ' ' +
-                        dropdownValue1 +
-                        ' ' +
-                        convertany(widget.rates, amountController.text,
-                            dropdownValue1, dropdownValue2) +
-                        ' ' +
-                        dropdownValue2;
-                  });
-                },
-                child: Text('Convert', style: TextStyle(color: Colors.white),), 
+                anytoanycontroller.convertAndSetAnswer(
+                 anytoanycontroller.amountController.text, rates);
+              },
+                child: const Text(
+                  'Convert',
+                  style: TextStyle(color: Colors.white),
+                ),
                 style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.black),),
+                  backgroundColor: MaterialStateProperty.all(Colors.black),
+                ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
-            SizedBox(height: 10),
-            Container(child: Text(answer))
+            const SizedBox(height: 10),
+            Container(child: Text(anytoanycontroller.answer))
           ],
         ),
       ),

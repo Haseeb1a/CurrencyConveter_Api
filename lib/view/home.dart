@@ -1,8 +1,8 @@
+import 'package:currency/controller/homepagecontroller.dart';
 import 'package:currency/model/ratesmodel.dart';
 import 'package:currency/view/anytoany.dart';
 import 'package:flutter/material.dart';
-
-import '../services/function.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,56 +12,57 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-
-  late Future<RateModel> result;
-  late Future<Map> allcurrencies;
   final formkey = GlobalKey<FormState>();
 
   //Getting RatesModel and All Currencies
   @override
   void initState() {
     super.initState();
-    setState(() {
-      result = fetchrates();
-      allcurrencies = fetchcurrencies();
-    });
+    final Fetchs = Provider.of<Homecontroller>(context, listen: false);
+    Fetchs.fetchs();
   }
 
   @override
   Widget build(BuildContext context) {
+    final Fetchs = Provider.of<Homecontroller>(context, listen: false);
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 0, 0, 0),
-          title: Text('Curreny Conveter',style: TextStyle(color:  Color.fromARGB(255, 232, 208, 85), fontSize: 25  ,fontFamily:AutofillHints.countryCode),)),
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+            title: const Text(
+              'Curreny Conveter',
+              style: TextStyle(
+                  color: Color.fromARGB(255, 232, 208, 85),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
+            centerTitle: true),
 
         //Future Builder for Getting Exchange Rates
         body: Container(
           height: h,
           width: w,
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/currecy2.png'),
-                  fit: BoxFit.cover)),
+                  image: AssetImage('assets/currecy2.png'), fit: BoxFit.cover)),
           child: SingleChildScrollView(
             child: Form(
               key: formkey,
               child: FutureBuilder<RateModel>(
-                future: result,
+                future:Fetchs. result,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                   return Center(
                     child: FutureBuilder<Map>(
-                        future: allcurrencies,
+                        future:Fetchs. allcurrencies,
                         builder: (context, currSnapshot) {
                           if (currSnapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
+                            return const Center(child: CircularProgressIndicator());
                           }
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,

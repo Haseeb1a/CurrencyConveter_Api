@@ -5,6 +5,7 @@ import '../model/allcurrecncy.dart';
 import '../utils/key.dart';
 
 Future<RateModel> fetchrates() async {
+  
   var response = await http.get(Uri.parse(
       'https://openexchangerates.org/api/latest.json?base=USD&app_id=' + key));
   final result = rateModelFromJson(response.body);
